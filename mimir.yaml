@@ -1,0 +1,69 @@
+metaMonitoring:
+  serviceMonitor:
+    enabled: true
+    labels:
+      release: kube-prometheus-stack
+mimir:
+  structuredConfig:
+    alertmanager_storage:
+      s3:
+        access_key_id: access_key
+        bucket_name: mimir-alert
+        endpoint: s3.eu-central-1.amazonaws.com
+        secret_access_key: secret_access
+    blocks_storage:
+      backend: s3
+      bucket_store:
+        sync_dir: /data/tsdb-sync
+      s3:
+        access_key_id: access_key
+        bucket_name: mimir-tsdb
+        endpoint: s3.eu-central-1.amazonaws.com
+        secret_access_key: secret_access
+      tsdb:
+        dir: /data/tsdb
+    compactor:
+      data_dir: /data
+    frontend:
+      align_queries_with_step: true
+      log_queries_longer_than: 10s
+    ingester:
+      instance_limits:
+        max_ingestion_rate: 0
+      ring:
+        final_sleep: 0s
+        num_tokens: 512
+    ingester_client:
+      grpc_client_config:
+        max_recv_msg_size: 104857600
+        max_send_msg_size: 104857600
+    limits:
+      ingestion_rate: 40000
+      max_global_series_per_metric: 0
+      max_global_series_per_user: 0
+    memberlist:
+      abort_if_cluster_join_fails: false
+      compression_enabled: false
+    ruler:
+      alertmanager_url: dnssrvnoa+http://_http-metrics._tcp.{{ template "mimir.fullname"
+        . }}-alertmanager-headless.{{ .Release.Namespace }}.svc.{{ .Values.global.clusterDomain
+        }}/alertmanager
+      enable_api: true
+      rule_path: /data
+    ruler_storage:
+      s3:
+        access_key_id: access_key
+        bucket_name: mimir-ruler-test
+        endpoint: s3.eu-central-1.amazonaws.com
+        secret_access_key: secret_access
+    runtime_config:
+      file: /var/{{ include "mimir.name" . }}/runtime.yaml
+    server:
+      grpc_server_max_concurrent_streams: 1000
+      grpc_server_max_recv_msg_size: 104857600
+      grpc_server_max_send_msg_size: 104857600
+minio:
+  enabled: false
+querier:
+  replicas: 3
+
