@@ -1,0 +1,4 @@
+Grafana url for mimir datasource
+
+  http://mimir-test-gateway.mimir-test.svc:80/prometheus
+
