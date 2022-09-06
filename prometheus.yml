@@ -1,0 +1,4 @@
+prometheus:
+  prometheusSpec:
+    remoteWrite:
+    - url:  http://mimir-test-nginx.mimir-test.svc:80/api/v1/push
