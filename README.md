@@ -1,10 +1,15 @@
 # grafana_mimir
-Grafana Mimir installation on k8 cluster
+## Grafana Mimir Installation on Kubernetes Cluster
+This guide explains how to install Grafana Mimir on a Kubernetes cluster using Helm.
 
-Installing Grafana Mimir
-Installed mimir-distributed via helm
-Installing Prometheus
-Installed kube-prometheus-stack via helm
+Installation Steps
+Install Mimir-distributed via Helm
+Install kube-prometheus-stack via Helm
+Install Prometheus
+Verify that Prometheus instances are scraping samples from various targets and pushing them to Grafana Mimir using Prometheus' remote write API.
+Configure a ServiceMonitor for Prometheus, labeling release: kube-prometheus-stack, to allow the Prometheus operator to discover which exporter services to scrape.
+Verify that Mimir metrics are being scraped through the Prometheus interface.
+Follow the instructions in the Grafana Mimir documentation to build the Mimir dashboards.
 
 ![image](https://user-images.githubusercontent.com/38376802/188642974-857d3345-1784-47c5-a3d6-ff57c3411dd4.png)
 
